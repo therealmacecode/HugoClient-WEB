@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HugoClient – Offizieller HugoSMP Fabric Client (1.21.11)</title>
+    <style>
+        :root {
+            --bg-dark: #111014;
+            --card-bg: rgba(24, 22, 29, 0.85);
+            --card-border: rgba(184, 173, 185, 0.15);
+            --hugo-red: #A51222;
+            --hugo-red-bright: #E52B3B;
+            --hugo-violet: #38104F;
+            --hugo-purple: #7826A6;
+            --text-primary: #F5F0F5;
+            --text-secondary: #B8ADB9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(165, 18, 34, 0.18), transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(120, 38, 166, 0.18), transparent 45%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--hugo-red-bright), var(--hugo-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1150px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(229, 43, 59, 0.12);
+            border: 1px solid rgba(229, 43, 59, 0.4);
+            color: var(--hugo-red-bright);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 0 auto 36px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 14px 30px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 25px rgba(229, 43, 59, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(229, 43, 59, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 14px 28px;
+            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--hugo-purple);
+            background: rgba(120, 38, 166, 0.15);
+        }
+
+        /* Features Grid */
+        .section {
+            max-width: 1150px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            margin-bottom: 10px;
+        }
+
+        .section-sub {
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 2px solid var(--hugo-red-bright);
+            border-radius: 14px;
+            padding: 26px;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--hugo-purple);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Community / Social Box */
+        .community-box {
+            background: linear-gradient(135deg, rgba(165, 18, 34, 0.15), rgba(56, 16, 79, 0.25));
+            border: 1px solid rgba(120, 38, 166, 0.35);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .community-box h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .community-box p {
+            color: var(--text-secondary);
+            margin-bottom: 26px;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1150px;
+            margin: 60px auto 0;
+            padding: 30px 20px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">HugoClient</div>
+        <div class="nav-links">
+            <a href="#features">Module</a>
+            <a href="#community">Community</a>
+            <a href="#download" style="color: #E52B3B; font-weight: 700;">Download</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="download">
+        <span class="badge">Minecraft Fabric 1.21.11 • HugoSMP Ready</span>
+        <h1>Dein Client.<br>Dein Vorteil auf HugoSMP.</h1>
+        <p>Moderne Smoked-Glass Oberfläche, erlaubte Economy-Tools, Anti-Leak Schutz und individuelle HUDs – speziell entwickelt für HugoSMP.</p>
+        <div class="cta-buttons">
+            <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-primary">⬇ HugoClient 1.0.18 (Download über Discord)</a>
+            <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-secondary">💬 Discord beitreten</a>
+        </div>
+    </section>
+
+    <section class="section" id="features">
+        <h2 class="section-title">Enthaltene Module & Tools</h2>
+        <p class="section-sub">Alle Funktionen übersichtlich in einem modernen Client vereint.</p>
+
+        <div class="grid">
+            <div class="card">
+                <h3>💰 Sell Macro & Invest Tracker</h3>
+                <p>Verkaufe Items bequem per Keybind mit konfigurierbaren Intervallen, Item-Filtern und behalte deine Investments auf HugoSMP im Blick.</p>
+            </div>
+            <div class="card">
+                <h3>📩 TPA Detector & Live-HUD</h3>
+                <p>Erkennt eingehende und ausgehende /tpa sowie /tpahere Anfragen sofort und zeigt einen live herunterzählenden Timer direkt auf dem Bildschirm.</p>
+            </div>
+            <div class="card">
+                <h3>🛡️ Anti-Leak & Streamer Mode</h3>
+                <p>Schützt deine Basis im F3-Menü mit Zufalls-Koordinaten, versteckt Bedrock-Muster sowie Erze und schützt deine Privatsphäre beim Streamen.</p>
+            </div>
+            <div class="card">
+                <h3>🔍 Mod Check & Detection</h3>
+                <p>Prüft deine geladenen Mods gegen Server-Regeln (HugoSMP & PvP.net) und erkennt Twitch-Streamer sowie Fake-Accounts zuverlässig.</p>
+            </div>
+            <div class="card">
+                <h3>🎛️ Freier HUD-Editor</h3>
+                <p>Platziere FPS, Ping, CPS, Keystrokes, Rüstungs-Status und Koordinaten frei per Drag & Drop ohne störende Unschärfe.</p>
+            </div>
+            <div class="card">
+                <h3>🛠️ Client Tools & Diagnostics</h3>
+                <p>Integrierter Crash-Analyzer, Log-Viewer, Config-Backup und Session-Fixer für ein stabiles Spielerlebnis ohne Abstürze.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="community">
+        <div class="community-box">
+            <h2>Stay connected!</h2>
+            <p>Updates, Changelogs, Support-Tickets und Clips – bleib überall mit der HugoClient Community verbunden.</p>
+            <div class="cta-buttons">
+                <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-primary">Discord Server ↗</a>
+                <a href="https://www.tiktok.com/@hugoclient_offical" target="_blank" class="btn-secondary">TikTok (@hugoclient_offical) ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
