@@ -1,363 +1,120 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HugoClient – Official HugoSMP Fabric Client</title>
-    <style>
-        :root {
-            --bg-dark: #111014;
-            --card-bg: rgba(24, 22, 29, 0.88);
-            --card-border: rgba(184, 173, 185, 0.14);
-            --hugo-red: #A51222;
-            --hugo-red-bright: #E52B3B;
-            --hugo-violet: #38104F;
-            --hugo-purple: #7826A6;
-            --text-primary: #F5F0F5;
-            --text-secondary: #B8ADB9;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HugoClient – Official HugoSMP Fabric Client</title>
+<style>
+:root{--bg:#111014;--card:rgba(24,22,29,.88);--border:rgba(184,173,185,.15);--red:#E52B3B;--purple:#7826A6;--text:#F5F0F5;--sub:#B8ADB9}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;scroll-behavior:smooth}
+body{background:var(--bg);background-image:radial-gradient(circle at 15% 15%,rgba(165,18,34,.22),transparent 40%),radial-gradient(circle at 85% 65%,rgba(120,38,166,.2),transparent 45%);color:var(--text);line-height:1.6}
+nav{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(17,16,20,.9);backdrop-filter:blur(10px);z-index:10}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(90deg,var(--red),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-r{display:flex;align-items:center;gap:20px}
+.nav-r a{color:var(--sub);text-decoration:none;font-weight:600;font-size:.95rem}
+.nav-r a:hover{color:var(--text)}
+.lang{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.lang button{background:none;border:none;color:var(--sub);padding:6px 11px;font-weight:700;cursor:pointer}
+.lang button.active{background:linear-gradient(135deg,var(--red),var(--purple));color:#fff}
+.hero{max-width:1100px;margin:70px auto 40px;padding:0 20px;text-align:center}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(229,43,59,.12);border:1px solid rgba(229,43,59,.4);color:var(--red);font-size:.85rem;font-weight:600;margin-bottom:20px}
+h1{font-size:3.1rem;font-weight:800;line-height:1.15;margin-bottom:16px}
+.hero p{color:var(--sub);font-size:1.1rem;max-width:640px;margin:0 auto 32px}
+.btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn1{padding:14px 30px;border-radius:10px;background:linear-gradient(135deg,var(--red),var(--purple));color:#fff;text-decoration:none;font-weight:700;box-shadow:0 8px 24px rgba(229,43,59,.25)}
+.btn2{padding:14px 26px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:600}
+.stats{max-width:950px;margin:45px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat strong{display:block;font-size:1.25rem}
+.stat span{color:var(--sub);font-size:.85rem}
+.sec{max-width:1100px;margin:75px auto;padding:0 20px}
+h2{font-size:1.9rem;margin-bottom:8px}
+.sub{color:var(--sub);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--red);border-radius:14px;padding:24px}
+.card h3{font-size:1.15rem;margin-bottom:8px}
+.card p{color:var(--sub);font-size:.93rem}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--red),var(--purple));font-weight:800;margin-bottom:12px}
+details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;cursor:pointer}
+summary{font-weight:700;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";color:var(--red);font-weight:800}
+details[open] summary::after{content:"−"}
+details p{margin-top:10px;color:var(--sub);font-size:.93rem}
+.comm{background:linear-gradient(135deg,rgba(165,18,34,.16),rgba(56,16,79,.28));border:1px solid rgba(120,38,166,.4);border-radius:16px;padding:40px 20px;text-align:center}
+.comm p{color:var(--sub);margin:10px auto 24px;max-width:560px}
+footer{max-width:1100px;margin:50px auto 0;padding:25px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--sub);font-size:.85rem}
+@media(max-width:650px){h1{font-size:2.2rem}.hide-m{display:none}}
+</style>
+</head>
+<body>
+<nav>
+<div class="logo">HugoClient</div>
+<div class="nav-r">
+<a href="#features" class="hide-m" data-i="m1">Module</a>
+<a href="#install" class="hide-m" data-i="m2">Installation</a>
+<a href="#faq" class="hide-m">FAQ</a>
+<a href="#community" class="hide-m">Community</a>
+<div class="lang">
+<button id="bde" class="active" onclick="setL('de')">DE</button>
+<button id="ben" onclick="setL('en')">EN</button>
+</div>
+</div>
+</nav>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            scroll-behavior: smooth;
-        }
+<section class="hero">
+<span class="badge">Minecraft Fabric 1.21.11 • HugoSMP Ready</span>
+<h1 data-i="ht">Dein Client.<br>Dein Vorteil auf HugoSMP.</h1>
+<p data-i="hs">Moderne Smoked-Glass Oberfläche, erlaubte Economy-Tools, Anti-Leak Schutz und frei anpassbare HUDs – speziell gebaut für HugoSMP.</p>
+<div class="btns">
+<a href="https://discord.gg" target="_blank" class="btn1" data-i="bd">⬇ HugoClient herunterladen</a>
+<a href="https://discord.gg" target="_blank" class="btn2" data-i="bdc">💬 Discord beitreten</a>
+</div>
+<div class="stats">
+<div class="stat"><strong>100% HugoSMP</strong><span data-i="st1">Regelkonform & erlaubt</span></div>
+<div class="stat"><strong>Fabric 1.21.11</strong><span data-i="st2">Optimiert & flüssig</span></div>
+<div class="stat"><strong>Smoked-Glass UI</strong><span data-i="st3">Moderne Full-HD Oberfläche</span></div>
+<div class="stat"><strong data-i="st4t">100% Kostenlos</strong><span data-i="st4s">Alle Module freigeschaltet</span></div>
+</div>
+</section>
 
-        body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 12% 15%, rgba(165, 18, 34, 0.2), transparent 38%),
-                radial-gradient(circle at 88% 45%, rgba(120, 38, 166, 0.18), transparent 42%),
-                radial-gradient(circle at 25% 85%, rgba(56, 16, 79, 0.25), transparent 45%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+<section class="sec" id="features">
+<h2 data-i="ft">Enthaltene Module & Tools</h2>
+<p class="sub" data-i="fs">Alle wichtigen Funktionen für Farmen, Trading, PvP-Sicherheit und Streaming in einem Client.</p>
+<div class="grid">
+<div class="card"><h3>💰 Sell Macro</h3><p data-i="f1">Verkaufe gefarmte Items automatisch per Keybind oder Intervall (1–600s), inklusive Item-Suche, Flower-Farm-Preset und Verkaufs-Statistiken.</p></div>
+<div class="card"><h3>📈 Invest Tracker</h3><p data-i="f2">Behalte deine gekauften Items, Einkaufspreise und Gewinne auf HugoSMP jederzeit übersichtlich im Blick.</p></div>
+<div class="card"><h3>📩 TPA Detector & Live-HUD</h3><p data-i="f3">Erkennt eingehende und ausgehende /tpa sowie /tpahere Anfragen sofort und zeigt einen live herunterzählenden Timer direkt auf dem Bildschirm.</p></div>
+<div class="card"><h3>🛡️ Anti-Leak & Streamer Mode</h3><p data-i="f4">Schützt deine Basis im F3-Menü mit Zufalls-Koordinaten, versteckt Bedrock-Muster sowie Erze und schützt deine Daten beim Streamen.</p></div>
+<div class="card"><h3>🔍 Mod Check & Twitch Detector</h3><p data-i="f5">Überprüft deine geladenen Mods gegen Server-Regeln (HugoSMP & PvP.net) und erkennt Twitch-Streamer sowie Fake-Accounts zuverlässig.</p></div>
+<div class="card"><h3>🎛️ Freier HUD-Editor</h3><p data-i="f6">Platziere FPS, Ping, CPS, Keystrokes, Rüstungs-Status, Koordinaten und die Modulliste frei per Drag & Drop auf deinem Bildschirm.</p></div>
+<div class="card"><h3>🛠️ Client Tools & Diagnostics</h3><p data-i="f7">Integrierter Crash-Analyzer, Log-Viewer, Config-Backup und Session-Fixer für ein stabiles Spielerlebnis ohne Abstürze.</p></div>
+<div class="card"><h3 data-i="f8t">🌍 Mehrsprachig (DE / EN)</h3><p data-i="f8">Wechsle jederzeit direkt im Client-Menü mit einem Klick zwischen deutscher und englischer Benutzeroberfläche.</p></div>
+</div>
+</section>
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1150px;
-            margin: 0 auto;
-            padding: 20px 20px;
-            border-bottom: 1px solid var(--card-border);
-            position: sticky;
-            top: 0;
-            background: rgba(17, 16, 20, 0.88);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-        }
+<section class="sec" id="install">
+<h2 data-i="it">So installierst du HugoClient</h2>
+<p class="sub" data-i="is">In vier einfachen Schritten bist du startklar.</p>
+<div class="grid">
+<div class="card"><div class="step-num">1</div><h3 data-i="s1t">Fabric installieren</h3><p data-i="s1">Installiere den Fabric Loader für Minecraft 1.21.11 sowie die aktuelle Fabric API.</p></div>
+<div class="card"><div class="step-num">2</div><h3 data-i="s2t">HugoClient laden</h3><p data-i="s2">Hole dir die aktuelle HugoClient .jar-Datei kostenlos über unseren offiziellen Discord.</p></div>
+<div class="card"><div class="step-num">3</div><h3 data-i="s3t">In den Mods-Ordner</h3><p data-i="s3">Ziehe die Datei in deinen .minecraft/mods Ordner und starte das Spiel.</p></div>
+<div class="card"><div class="step-num">4</div><h3 data-i="s4t">Menü öffnen</h3><p data-i="s4">Drücke im Spiel deine zugewiesene Menü-Taste (Standard: Rechts-Shift) und passe alles an.</p></div>
+</div>
+</section>
 
-        .logo {
-            font-size: 1.55rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(90deg, var(--hugo-red-bright), var(--hugo-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+<section class="sec" id="faq">
+<h2 data-i="qt">Häufige Fragen (FAQ)</h2>
+<p class="sub" data-i="qs">Alles, was du vor dem Start wissen solltest.</p>
+<details><summary data-i="q1">Ist HugoClient auf HugoSMP erlaubt?</summary><p data-i="a1">Ja! HugoClient wurde speziell für HugoSMP entwickelt. Funktionen wie das Sell Macro sind auf dem Server erlaubt, und der integrierte Mod-Check hilft dir dabei, keine verbotenen Mods im Ordner zu haben.</p></details>
+<details><summary data-i="q2">Kostet der Client etwas?</summary><p data-i="a2">Nein, HugoClient ist komplett kostenlos auf unserem offiziellen Discord-Server verfügbar.</p></details>
+<details><summary data-i="q3">Welche Minecraft-Version wird unterstützt?</summary><p data-i="a3">Aktuell läuft HugoClient auf Minecraft Java Edition 1.21.11 mit dem Fabric Modloader.</p></details>
+<details><summary data-i="q4">Wo bekomme ich Hilfe bei Problemen oder Bugs?</summary><p data-i="a4">Tritt unserem Discord bei und öffne ein Ticket im Support-Bereich – dort helfen wir dir gerne weiter.</p></details>
+</section>
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 22px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        /* Language Switcher */
-        .lang-switch {
-            display: flex;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 6px 11px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .lang-btn.active {
-            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
-            color: #fff;
-        }
-
-        /* Hero Section */
-        .hero {
-            max-width: 1150px;
-            margin: 70px auto 50px;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            background: rgba(229, 43, 59, 0.12);
-            border: 1px solid rgba(229, 43, 59, 0.4);
-            color: var(--hugo-red-bright);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 22px;
-        }
-
-        .hero h1 {
-            font-size: 3.3rem;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 18px;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-            max-width: 660px;
-            margin: 0 auto 36px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            padding: 15px 32px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 8px 25px rgba(229, 43, 59, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(229, 43, 59, 0.42);
-        }
-
-        .btn-secondary {
-            padding: 15px 28px;
-            border-radius: 10px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: border-color 0.2s, background 0.2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--hugo-purple);
-            background: rgba(120, 38, 166, 0.16);
-        }
-
-        /* Stats Strip */
-        .stats-bar {
-            max-width: 950px;
-            margin: 50px auto 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            padding: 0 20px;
-        }
-
-        .stat-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-        }
-
-        .stat-item strong {
-            display: block;
-            font-size: 1.35rem;
-            color: var(--text-primary);
-        }
-
-        .stat-item span {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        /* Sections */
-        .section {
-            max-width: 1150px;
-            margin: 85px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .section-sub {
-            color: var(--text-secondary);
-            margin-bottom: 36px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-top: 2px solid var(--hugo-red-bright);
-            border-radius: 14px;
-            padding: 26px;
-            backdrop-filter: blur(12px);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--hugo-purple);
-        }
-
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* Installation Steps */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .step-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 24px;
-        }
-
-        .step-num {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
-            font-weight: 800;
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-        }
-
-        /* FAQ */
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        details {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 18px 22px;
-            cursor: pointer;
-        }
-
-        summary {
-            font-weight: 700;
-            font-size: 1.05rem;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        summary::after {
-            content: "+";
-            color: var(--hugo-red-bright);
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
-
-        details[open] summary::after {
-            content: "−";
-        }
-
-        details p {
-            margin-top: 12px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* Community / Social Box */
-        .community-box {
-            background: linear-gradient(135deg, rgba(165, 18, 34, 0.16), rgba(56, 16, 79, 0.28));
-            border: 1px solid rgba(120, 38, 166, 0.4);
-            border-radius: 16px;
-            padding: 44px 24px;
-            text-align: center;
-        }
-
-        .community-box h2 {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-
-        .community-box p {
-            color: var(--text-secondary);
-            margin-bottom: 26px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Footer */
-        footer {
-            max-width: 1150px;
-            margin: 60px auto 0;
-            padding: 30px 20px;
-            border-top: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
- 
+<section class="sec" id="community">
+<div class="comm">
+<h2>Stay connected!</h2>
+<p data-i="cs">Updates, Changelogs, Support und Clips – bleib überall mit der offiziellen HugoClient Community verbunden.</p>
+<div class="btns">
+<a href="https://discord.gg" target="_blank" class="btn1">Discord Server ↗</a>
