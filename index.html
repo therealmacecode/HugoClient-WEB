@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HugoClient – Offizieller HugoSMP Fabric Client (1.21.11)</title>
+    <title>HugoClient – Official HugoSMP Fabric Client</title>
     <style>
         :root {
             --bg-dark: #111014;
-            --card-bg: rgba(24, 22, 29, 0.85);
-            --card-border: rgba(184, 173, 185, 0.15);
+            --card-bg: rgba(24, 22, 29, 0.88);
+            --card-border: rgba(184, 173, 185, 0.14);
             --hugo-red: #A51222;
             --hugo-red-bright: #E52B3B;
             --hugo-violet: #38104F;
@@ -22,13 +22,15 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 15% 20%, rgba(165, 18, 34, 0.18), transparent 40%),
-                radial-gradient(circle at 85% 75%, rgba(120, 38, 166, 0.18), transparent 45%);
+                radial-gradient(circle at 12% 15%, rgba(165, 18, 34, 0.2), transparent 38%),
+                radial-gradient(circle at 88% 45%, rgba(120, 38, 166, 0.18), transparent 42%),
+                radial-gradient(circle at 25% 85%, rgba(56, 16, 79, 0.25), transparent 45%);
             color: var(--text-primary);
             min-height: 100vh;
             line-height: 1.6;
@@ -41,12 +43,17 @@
             align-items: center;
             max-width: 1150px;
             margin: 0 auto;
-            padding: 24px 20px;
+            padding: 20px 20px;
             border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            background: rgba(17, 16, 20, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 100;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.55rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(90deg, var(--hugo-red-bright), var(--hugo-purple));
@@ -54,9 +61,15 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
         .nav-links {
             display: flex;
-            gap: 24px;
+            gap: 22px;
             align-items: center;
         }
 
@@ -64,6 +77,7 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color 0.2s;
         }
 
@@ -71,28 +85,53 @@
             color: var(--text-primary);
         }
 
+        /* Language Switcher */
+        .lang-switch {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 11px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
+            color: #fff;
+        }
+
         /* Hero Section */
         .hero {
             max-width: 1150px;
-            margin: 60px auto;
+            margin: 70px auto 50px;
             padding: 0 20px;
             text-align: center;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
             background: rgba(229, 43, 59, 0.12);
             border: 1px solid rgba(229, 43, 59, 0.4);
             color: var(--hugo-red-bright);
             font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 3.3rem;
             font-weight: 800;
             line-height: 1.15;
             margin-bottom: 18px;
@@ -101,7 +140,7 @@
         .hero p {
             color: var(--text-secondary);
             font-size: 1.15rem;
-            max-width: 650px;
+            max-width: 660px;
             margin: 0 auto 36px;
         }
 
@@ -113,7 +152,7 @@
         }
 
         .btn-primary {
-            padding: 14px 30px;
+            padding: 15px 32px;
             border-radius: 10px;
             background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
             color: white;
@@ -126,11 +165,11 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(229, 43, 59, 0.4);
+            box-shadow: 0 12px 30px rgba(229, 43, 59, 0.42);
         }
 
         .btn-secondary {
-            padding: 14px 28px;
+            padding: 15px 28px;
             border-radius: 10px;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -142,19 +181,48 @@
 
         .btn-secondary:hover {
             border-color: var(--hugo-purple);
-            background: rgba(120, 38, 166, 0.15);
+            background: rgba(120, 38, 166, 0.16);
         }
 
-        /* Features Grid */
+        /* Stats Strip */
+        .stats-bar {
+            max-width: 950px;
+            margin: 50px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 0 20px;
+        }
+
+        .stat-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat-item strong {
+            display: block;
+            font-size: 1.35rem;
+            color: var(--text-primary);
+        }
+
+        .stat-item span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Sections */
         .section {
             max-width: 1150px;
-            margin: 80px auto;
+            margin: 85px auto;
             padding: 0 20px;
         }
 
         .section-title {
-            font-size: 1.9rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
         }
 
         .section-sub {
@@ -164,7 +232,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
@@ -184,11 +252,8 @@
         }
 
         .card h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .card p {
@@ -196,12 +261,80 @@
             font-size: 0.95rem;
         }
 
+        /* Installation Steps */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--hugo-red-bright), var(--hugo-purple));
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+        }
+
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            cursor: pointer;
+        }
+
+        summary {
+            font-weight: 700;
+            font-size: 1.05rem;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: "+";
+            color: var(--hugo-red-bright);
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        details[open] summary::after {
+            content: "−";
+        }
+
+        details p {
+            margin-top: 12px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
         /* Community / Social Box */
         .community-box {
-            background: linear-gradient(135deg, rgba(165, 18, 34, 0.15), rgba(56, 16, 79, 0.25));
-            border: 1px solid rgba(120, 38, 166, 0.35);
+            background: linear-gradient(135deg, rgba(165, 18, 34, 0.16), rgba(56, 16, 79, 0.28));
+            border: 1px solid rgba(120, 38, 166, 0.4);
             border-radius: 16px;
-            padding: 40px;
+            padding: 44px 24px;
             text-align: center;
         }
 
@@ -213,6 +346,9 @@
         .community-box p {
             color: var(--text-secondary);
             margin-bottom: 26px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
@@ -224,78 +360,3 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 16px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <div class="logo">HugoClient</div>
-        <div class="nav-links">
-            <a href="#features">Module</a>
-            <a href="#community">Community</a>
-            <a href="#download" style="color: #E52B3B; font-weight: 700;">Download</a>
-        </div>
-    </nav>
-
-    <section class="hero" id="download">
-        <span class="badge">Minecraft Fabric 1.21.11 • HugoSMP Ready</span>
-        <h1>Dein Client.<br>Dein Vorteil auf HugoSMP.</h1>
-        <p>Moderne Smoked-Glass Oberfläche, erlaubte Economy-Tools, Anti-Leak Schutz und individuelle HUDs – speziell entwickelt für HugoSMP.</p>
-        <div class="cta-buttons">
-            <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-primary">⬇ HugoClient 1.0.18 (Download über Discord)</a>
-            <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-secondary">💬 Discord beitreten</a>
-        </div>
-    </section>
-
-    <section class="section" id="features">
-        <h2 class="section-title">Enthaltene Module & Tools</h2>
-        <p class="section-sub">Alle Funktionen übersichtlich in einem modernen Client vereint.</p>
-
-        <div class="grid">
-            <div class="card">
-                <h3>💰 Sell Macro & Invest Tracker</h3>
-                <p>Verkaufe Items bequem per Keybind mit konfigurierbaren Intervallen, Item-Filtern und behalte deine Investments auf HugoSMP im Blick.</p>
-            </div>
-            <div class="card">
-                <h3>📩 TPA Detector & Live-HUD</h3>
-                <p>Erkennt eingehende und ausgehende /tpa sowie /tpahere Anfragen sofort und zeigt einen live herunterzählenden Timer direkt auf dem Bildschirm.</p>
-            </div>
-            <div class="card">
-                <h3>🛡️ Anti-Leak & Streamer Mode</h3>
-                <p>Schützt deine Basis im F3-Menü mit Zufalls-Koordinaten, versteckt Bedrock-Muster sowie Erze und schützt deine Privatsphäre beim Streamen.</p>
-            </div>
-            <div class="card">
-                <h3>🔍 Mod Check & Detection</h3>
-                <p>Prüft deine geladenen Mods gegen Server-Regeln (HugoSMP & PvP.net) und erkennt Twitch-Streamer sowie Fake-Accounts zuverlässig.</p>
-            </div>
-            <div class="card">
-                <h3>🎛️ Freier HUD-Editor</h3>
-                <p>Platziere FPS, Ping, CPS, Keystrokes, Rüstungs-Status und Koordinaten frei per Drag & Drop ohne störende Unschärfe.</p>
-            </div>
-            <div class="card">
-                <h3>🛠️ Client Tools & Diagnostics</h3>
-                <p>Integrierter Crash-Analyzer, Log-Viewer, Config-Backup und Session-Fixer für ein stabiles Spielerlebnis ohne Abstürze.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="community">
-        <div class="community-box">
-            <h2>Stay connected!</h2>
-            <p>Updates, Changelogs, Support-Tickets und Clips – bleib überall mit der HugoClient Community verbunden.</p>
-            <div class="cta-buttons">
-                <a href="https://discord.gg/XdNYkgDBaV" target="_blank" class="btn-primary">Discord Server ↗</a>
-                <a href="https://www.tiktok.com/@hugoclient_offical" target="_blank" class="btn-secondary">TikTok (@hugoclient_offical) ↗</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
