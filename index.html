@@ -9,15 +9,23 @@
 :root{--bg:#111014;--card:rgba(24,22,29,.88);--border:rgba(184,173,185,.15);--red:#E52B3B;--purple:#7826A6;--text:#F5F0F5;--sub:#B8ADB9}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;scroll-behavior:smooth}
 body{background:var(--bg);background-image:radial-gradient(circle at 15% 15%,rgba(165,18,34,.22),transparent 40%),radial-gradient(circle at 85% 65%,rgba(120,38,166,.2),transparent 45%);color:var(--text);line-height:1.6}
-nav{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(17,16,20,.9);backdrop-filter:blur(10px);z-index:10}
+
+/* Reiner CSS-Sprachumschalter (funktioniert immer!) */
+input[name="lang"]{display:none}
+#lang-de:checked ~ .page .en{display:none}
+#lang-en:checked ~ .page .de{display:none}
+#lang-de:checked ~ .page label[for="lang-de"],
+#lang-en:checked ~ .page label[for="lang-en"]{background:linear-gradient(135deg,var(--red),var(--purple));color:#fff}
+
+nav{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(17,16,20,.92);backdrop-filter:blur(10px);z-index:10}
 .logo{display:flex;align-items:center;gap:10px;font-size:1.45rem;font-weight:800;text-decoration:none;background:linear-gradient(90deg,var(--red),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .logo img{height:38px;width:auto;image-rendering:pixelated}
 .nav-r{display:flex;align-items:center;gap:20px}
 .nav-r a{color:var(--sub);text-decoration:none;font-weight:600;font-size:.95rem}
 .nav-r a:hover{color:var(--text)}
 .lang{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.lang button{background:none;border:none;color:var(--sub);padding:6px 11px;font-weight:700;cursor:pointer}
-.lang button.active{background:linear-gradient(135deg,var(--red),var(--purple));color:#fff}
+.lang label{color:var(--sub);padding:6px 12px;font-weight:700;cursor:pointer;font-size:.85rem;user-select:none}
+
 .hero{max-width:1100px;margin:55px auto 40px;padding:0 20px;text-align:center}
 .hero-logo{width:170px;height:auto;margin:0 auto 18px;display:block;image-rendering:pixelated;filter:drop-shadow(0 10px 25px rgba(229,43,59,.35))}
 .badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(229,43,59,.12);border:1px solid rgba(229,43,59,.4);color:var(--red);font-size:.85rem;font-weight:600;margin-bottom:18px}
@@ -50,65 +58,118 @@ footer{max-width:1100px;margin:50px auto 0;padding:25px 20px;border-top:1px soli
 </style>
 </head>
 <body>
+
+<input type="radio" name="lang" id="lang-de" checked>
+<input type="radio" name="lang" id="lang-en">
+
+<div class="page">
 <nav>
-<a href="#" class="logo"><img src="icon.png" alt="HugoClient Logo"><span>HugoClient</span></a>
+<a href="#" class="logo"><img src="icon.png" alt="HugoClient"><span>HugoClient</span></a>
 <div class="nav-r">
-<a href="#features" class="hide-m" data-i="m1">Module</a>
-<a href="#install" class="hide-m" data-i="m2">Installation</a>
+<a href="#features" class="hide-m"><span class="de">Module</span><span class="en">Modules</span></a>
+<a href="#install" class="hide-m">Installation</a>
 <a href="#faq" class="hide-m">FAQ</a>
 <a href="#community" class="hide-m">Community</a>
 <div class="lang">
-<button type="button" id="bde" class="active" onclick="setL('de')">DE</button>
-<button type="button" id="ben" onclick="setL('en')">EN</button>
+<label for="lang-de">DE</label>
+<label for="lang-en">EN</label>
 </div>
 </div>
 </nav>
 
 <section class="hero">
-<img src="icon.png" alt="HugoClient Logo" class="hero-logo">
+<img src="icon.png" alt="HugoClient" class="hero-logo">
 <span class="badge">Minecraft Fabric 1.21.11 • HugoSMP Ready</span>
-<h1 data-i="ht">Dein Client.<br>Dein Vorteil auf HugoSMP.</h1>
-<p data-i="hs">Moderne Smoked-Glass Oberfläche, erlaubte Economy-Tools, Anti-Leak Schutz und frei anpassbare HUDs – speziell gebaut für HugoSMP.</p>
+<h1>
+<span class="de">Dein Client.<br>Dein Vorteil auf HugoSMP.</span>
+<span class="en">Your Client.<br>Your Advantage on HugoSMP.</span>
+</h1>
+<p>
+<span class="de">Moderne Smoked-Glass Oberfläche, erlaubte Economy-Tools, Anti-Leak Schutz und frei anpassbare HUDs – speziell gebaut für HugoSMP.</span>
+<span class="en">Modern smoked-glass interface, allowed economy tools, anti-leak protection, and customizable HUDs – built specifically for HugoSMP.</span>
+</p>
 <div class="btns">
-<a href="discord://-/invite/XdNYkgDBaV" onclick="setTimeout(function(){window.open('https://discord.com')},600);" class="btn1" data-i="bd">⬇ HugoClient herunterladen</a>
-<a href="discord://-/invite/XdNYkgDBaV" onclick="setTimeout(function(){window.open('https://discord.com')},600);" class="btn2" data-i="bdc">💬 Discord beitreten</a>
+<a href="discord://-/invite/XdNYkgDBaV" onclick="setTimeout(function(){window.open('https://discord.com')},600);" class="btn1">
+<span class="de">⬇ HugoClient herunterladen</span>
+<span class="en">⬇ Download HugoClient</span>
+</a>
+<a href="discord://-/invite/XdNYkgDBaV" onclick="setTimeout(function(){window.open('https://discord.com')},600);" class="btn2">
+<span class="de">💬 Discord beitreten</span>
+<span class="en">💬 Join Discord</span>
+</a>
 </div>
 <div class="stats">
-<div class="stat"><strong>100% HugoSMP</strong><span data-i="st1">Regelkonform & erlaubt</span></div>
-<div class="stat"><strong>Fabric 1.21.11</strong><span data-i="st2">Optimiert & flüssig</span></div>
-<div class="stat"><strong>Smoked-Glass UI</strong><span data-i="st3">Moderne Full-HD Oberfläche</span></div>
-<div class="stat"><strong data-i="st4t">100% Kostenlos</strong><span data-i="st4s">Alle Module freigeschaltet</span></div>
+<div class="stat">
+<strong>100% HugoSMP</strong>
+<span class="de">Regelkonform & erlaubt</span>
+<span class="en">Rule-compliant & allowed</span>
+</div>
+<div class="stat">
+<strong>Fabric 1.21.11</strong>
+<span class="de">Optimiert & flüssig</span>
+<span class="en">Optimized & smooth</span>
+</div>
+<div class="stat">
+<strong>Smoked-Glass UI</strong>
+<span class="de">Moderne Full-HD Oberfläche</span>
+<span class="en">Modern Full-HD interface</span>
+</div>
+<div class="stat">
+<strong><span class="de">100% Kostenlos</span><span class="en">100% Free</span></strong>
+<span class="de">Alle Module freigeschaltet</span>
+<span class="en">All modules unlocked</span>
+</div>
 </div>
 </section>
 
 <section class="sec" id="features">
-<h2 data-i="ft">Enthaltene Module & Tools</h2>
-<p class="sub" data-i="fs">Alle wichtigen Funktionen für Farmen, Trading, PvP-Sicherheit und Streaming in einem Client.</p>
+<h2>
+<span class="de">Enthaltene Module & Tools</span>
+<span class="en">Included Modules & Tools</span>
+</h2>
+<p class="sub">
+<span class="de">Alle wichtigen Funktionen für Farmen, Trading, PvP-Sicherheit und Streaming in einem Client.</span>
+<span class="en">All essential features for farming, trading, PvP safety, and streaming in one client.</span>
+</p>
 <div class="grid">
-<div class="card"><h3>💰 Sell Macro</h3><p data-i="f1">Verkaufe gefarmte Items automatisch per Keybind oder Intervall (1–600s), inklusive Item-Suche, Flower-Farm-Preset und Verkaufs-Statistiken.</p></div>
-<div class="card"><h3>📈 Invest Tracker</h3><p data-i="f2">Behalte deine gekauften Items, Einkaufspreise und Gewinne auf HugoSMP jederzeit übersichtlich im Blick.</p></div>
-<div class="card"><h3>📩 TPA Detector & Live-HUD</h3><p data-i="f3">Erkennt eingehende und ausgehende /tpa sowie /tpahere Anfragen sofort und zeigt einen live herunterzählenden Timer direkt auf dem Bildschirm.</p></div>
-<div class="card"><h3>🛡️ Anti-Leak & Streamer Mode</h3><p data-i="f4">Schützt deine Basis im F3-Menü mit Zufalls-Koordinaten, versteckt Bedrock-Muster sowie Erze und schützt deine Daten beim Streamen.</p></div>
-<div class="card"><h3>🔍 Mod Check & Twitch Detector</h3><p data-i="f5">Überprüft deine geladenen Mods gegen Server-Regeln (HugoSMP & PvP.net) und erkennt Twitch-Streamer sowie Fake-Accounts zuverlässig.</p></div>
-<div class="card"><h3>🎛️ Freier HUD-Editor</h3><p data-i="f6">Platziere FPS, Ping, CPS, Keystrokes, Rüstungs-Status, Koordinaten und die Modulliste frei per Drag & Drop auf deinem Bildschirm.</p></div>
-<div class="card"><h3>🛠️ Client Tools & Diagnostics</h3><p data-i="f7">Integrierter Crash-Analyzer, Log-Viewer, Config-Backup und Session-Fixer für ein stabiles Spielerlebnis ohne Abstürze.</p></div>
-<div class="card"><h3 data-i="f8t">🌍 Mehrsprachig (DE / EN)</h3><p data-i="f8">Wechsle jederzeit direkt im Client-Menü mit einem Klick zwischen deutscher und englischer Benutzeroberfläche.</p></div>
+<div class="card">
+<h3>💰 Sell Macro</h3>
+<p>
+<span class="de">Verkaufe gefarmte Items automatisch per Keybind oder Intervall (1–600s), inklusive Item-Suche, Flower-Farm-Preset und Verkaufs-Statistiken.</span>
+<span class="en">Sell farmed items automatically via keybind or interval (1–600s), including item search, Flower Farm preset, and sales statistics.</span>
+</p>
 </div>
-</section>
-
-<section class="sec" id="install">
-<h2 data-i="it">So installierst du HugoClient</h2>
-<p class="sub" data-i="is">In vier einfachen Schritten bist du startklar.</p>
-<div class="grid">
-<div class="card"><div class="step-num">1</div><h3 data-i="s1t">Fabric installieren</h3><p data-i="s1">Installiere den Fabric Loader für Minecraft 1.21.11 sowie die aktuelle Fabric API.</p></div>
-<div class="card"><div class="step-num">2</div><h3 data-i="s2t">HugoClient laden</h3><p data-i="s2">Hole dir die aktuelle HugoClient .jar-Datei kostenlos über unseren offiziellen Discord.</p></div>
-<div class="card"><div class="step-num">3</div><h3 data-i="s3t">In den Mods-Ordner</h3><p data-i="s3">Ziehe die Datei in deinen .minecraft/mods Ordner und starte das Spiel.</p></div>
-<div class="card"><div class="step-num">4</div><h3 data-i="s4t">Menü öffnen</h3><p data-i="s4">Drücke im Spiel deine zugewiesene Menü-Taste (Standard: Rechts-Shift) und passe alles an.</p></div>
+<div class="card">
+<h3>📈 Invest Tracker</h3>
+<p>
+<span class="de">Behalte deine gekauften Items, Einkaufspreise und Gewinne auf HugoSMP jederzeit übersichtlich im Blick.</span>
+<span class="en">Keep track of your purchased items, buy prices, and profits on HugoSMP at a glance.</span>
+</p>
 </div>
-</section>
-
-<section class="sec" id="faq">
-<h2 data-i="qt">Häufige Fragen (FAQ)</h2>
-<p class="sub" data-i="qs">Alles, was du vor dem Start wissen solltest.</p>
-<details><summary data-i="q1">Ist HugoClient auf HugoSMP erlaubt?</summary><p data-i="a1">Ja! HugoClient wurde speziell für HugoSMP entwickelt. Funktionen wie das Sell Macro sind auf dem Server erlaubt, und der integrierte Mod-Check hilft dir dabei, keine verbotenen Mods im Ordner zu haben.</p></details>
-<details><summary data-i="q2">Kostet der Client etwas?</summary><p data-i="a2">Nein, HugoClient ist komplett kostenlos auf unserem offiziellen Discord-Server verfügbar.</p></details>
+<div class="card">
+<h3>📩 TPA Detector & Live-HUD</h3>
+<p>
+<span class="de">Erkennt eingehende und ausgehende /tpa sowie /tpahere Anfragen sofort und zeigt einen live herunterzählenden Timer direkt auf dem Bildschirm.</span>
+<span class="en">Instantly detects incoming and outgoing /tpa and /tpahere requests and displays a live countdown timer right on your screen.</span>
+</p>
+</div>
+<div class="card">
+<h3>🛡️ Anti-Leak & Streamer Mode</h3>
+<p>
+<span class="de">Schützt deine Basis im F3-Menü mit Zufalls-Koordinaten, versteckt Bedrock-Muster sowie Erze und schützt deine Daten beim Streamen.</span>
+<span class="en">Protects your base in the F3 debug screen with random coordinates, hides bedrock patterns and ores, and secures your data while streaming.</span>
+</p>
+</div>
+<div class="card">
+<h3>🔍 Mod Check & Twitch Detector</h3>
+<p>
+<span class="de">Überprüft deine geladenen Mods gegen Server-Regeln (HugoSMP & PvP.net) und erkennt Twitch-Streamer sowie Fake-Accounts zuverlässig.</span>
+<span class="en">Checks your loaded mods against server rules (HugoSMP & PvP.net) and reliably detects Twitch streamers and fake accounts.</span>
+</p>
+</div>
+<div class="card">
+<h3>🎛️ <span class="de">Freier HUD-Editor</span><span class="en">Custom HUD Editor</span></h3>
+<p>
+<span class="de">Platziere FPS, Ping, CPS, Keystrokes, Rüstungs-Status, Koordinaten und die Modulliste frei per Drag & Drop auf deinem Bildschirm.</span>
+<span class="en">Freely place FPS, Ping, CPS, Keystrokes, Armor Status, Coordinates, and the Module List via drag & drop.</span>
+</p>
